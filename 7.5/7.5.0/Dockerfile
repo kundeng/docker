@@ -84,23 +84,9 @@ RUN export GNUPGHOME="$(mktemp -d)" \
     && chown -R convertigo:convertigo conf temp work logs \
     && chmod -w conf/*
 
+ENV CONVERTIGO_WAR_URL https://download.convertigo.com/build/beta/webapp/convertigo.war
 
-ENV CONVERTIGO_VERSION=7.5.0_alpha
-ENV CONVERTIGO_REVISION=43302
-
-ENV CONVERTIGO_WAR_URL http://217.167.129.14:8881/build/$CONVERTIGO_VERSION-v$CONVERTIGO_REVISION/convertigo-$CONVERTIGO_VERSION-v$CONVERTIGO_REVISION-linux64.war
-
-ENV CONVERTIGO_GPG_KEYS 6A7779BB78FE368DF74B708FD4DA8FBEB64BF75F
-
-
-## download and extract the convertigo webapps
-## and remove unnecessary components for the mbaas version
-
-RUN export GNUPGHOME="$(mktemp -d)" \
-    && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$CONVERTIGO_GPG_KEYS" \
-    && curl -fSL -o /tmp/convertigo.war $CONVERTIGO_WAR_URL \
-    && curl -fSL -o /tmp/convertigo.war.asc $CONVERTIGO_WAR_URL.asc \
-    && gpg --batch --verify /tmp/convertigo.war.asc /tmp/convertigo.war \
+RUN curl -fSL -o /tmp/convertigo.war $CONVERTIGO_WAR_URL \
     && mkdir webapps/ROOT webapps/convertigo \
     && (cd webapps/convertigo \
         && unzip -q /tmp/convertigo.war \
