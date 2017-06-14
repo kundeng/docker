@@ -17,6 +17,6 @@ install:
 script:
   - (cd 7.5/7.5.0 ; docker build --rm=false -t convertigo/convertigo .)
   - if [ ! -f ${CACHE_DOCKER_C8O} ]; then docker save convertigo/convertigo | gzip > ${CACHE_DOCKER_C8O}; fi
-deploy:
+after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push convertigo/convertigo:7.5.0_auto
