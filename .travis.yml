@@ -19,4 +19,5 @@ script:
   - if [ ! -f ${CACHE_DOCKER_C8O} ]; then docker save convertigo/convertigo | gzip > ${CACHE_DOCKER_C8O}; fi
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker tag convertigo/convertigo convertigo/convertigo:7.5.0_auto
   - docker push convertigo/convertigo:7.5.0_auto
