@@ -86,6 +86,7 @@ RUN export GNUPGHOME="$(mktemp -d)" \
 
 ENV CONVERTIGO_WAR_URL https://download.convertigo.com/build/beta/webapp/convertigo.war
 
+ARG CACHEBUST=1
 RUN curl -fSL -o /tmp/convertigo.war $CONVERTIGO_WAR_URL \
     && mkdir webapps/ROOT webapps/convertigo \
     && (cd webapps/convertigo \

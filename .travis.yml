@@ -13,11 +13,10 @@ cache:
     - $CACHE_DOCKER
 install:
   - if [ -f ${CACHE_DOCKER_C8O} ]; then gunzip -c ${CACHE_DOCKER_C8O} | docker load; fi
-  - mkdir -p $CACHE_DOCKER
 script:
-  - (cd 7.5/7.5.0 ; docker build --rm=false -t convertigo/convertigo .)
-  - if [ ! -f ${CACHE_DOCKER_C8O} ]; then docker save convertigo/convertigo | gzip > ${CACHE_DOCKER_C8O}; fi
+  - (cd 7.5/7.5.0 ; docker build --rm=false -t convertigo/convertigo:7.5.0_auto --build-arg CACHEBUST=$(date +%s) .)
+  - mkdir -p $CACHE_DOCKER
+  - docker save convertigo/convertigo:7.5.0_auto | gzip > ${CACHE_DOCKER_C8O}
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker tag convertigo/convertigo convertigo/convertigo:7.5.0_auto
   - docker push convertigo/convertigo:7.5.0_auto
