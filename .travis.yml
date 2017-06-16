@@ -4,19 +4,8 @@ services:
 git:
   depth: 5
 language: generic
-env:
-  global:
-    - CACHE_DOCKER=$HOME/.cache/docker
-    - CACHE_DOCKER_C8O=$CACHE_DOCKER/convertigo
-cache:
-  directories:
-    - $CACHE_DOCKER
-install:
-  - if [ -f ${CACHE_DOCKER_C8O} ]; then gunzip -c ${CACHE_DOCKER_C8O} | docker load; fi
 script:
-  - (cd 7.5/7.5.0 ; docker build --rm=false -t convertigo/convertigo:7.5.0_auto --build-arg CACHEBUST=$(date +%s) .)
-  - mkdir -p $CACHE_DOCKER
-  - docker save convertigo/convertigo:7.5.0_auto | gzip > ${CACHE_DOCKER_C8O}
+  - (cd 7.5/7.5.0 ; docker build --rm=false -t convertigo/convertigo:7.5.0_auto .)
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push convertigo/convertigo:7.5.0_auto
