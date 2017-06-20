@@ -84,7 +84,7 @@ RUN export GNUPGHOME="$(mktemp -d)" \
     && chown -R convertigo:convertigo conf temp work logs \
     && chmod -w conf/*
 
-ENV CONVERTIGO_WAR_URL https://download.convertigo.com/build/beta/webapp/convertigo.war
+ENV CONVERTIGO_WAR_URL https://m2.convertigo.com/com/convertigo/webapp/convertigo/7.5.0-beta/convertigo-7.5.0-beta.war
 
 RUN curl -fSL -o /tmp/convertigo.war $CONVERTIGO_WAR_URL \
     && mkdir webapps/ROOT webapps/convertigo \
