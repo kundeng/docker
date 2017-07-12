@@ -6,6 +6,7 @@ jobs:
     working_directory: /mnt
     steps:
      - checkout
+     - setup_remote_docker
      - run:
          name: Docker build
          command: "(cd 7.5/7.5.0 ; docker build --rm=false -t convertigo/convertigo:7.5.0_auto .)"
