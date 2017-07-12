@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+     - image: docker:latest
+    working_directory: /mnt
+    steps:
+     - checkout
+     - run:
+         name: Docker build
+         command: "(cd 7.5/7.5.0 ; docker build --rm=false -t convertigo/convertigo:7.5.0_auto .)"
+     - run:
+         name: Docker publish
+         command: |
+           docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+           docker push convertigo/convertigo:7.5.0_auto
